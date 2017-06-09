@@ -6,8 +6,8 @@ import { movieCollection } from '../styles/movieCollection.scss';
 const MovieCollection = () => {
     return (
         <div className={movieCollection}>
-            <MoviesList />
             <CreateMovieControl />
+            <MoviesList />
         </div>
     );
 };

@@ -1,28 +1,27 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { createMovie } from '../actions';
+import { createMovie, getAllMovies } from '../actions';
+import { createMovieForm } from '../styles/createMovieForm.scss';
 
-const CreateMovieControl = ({ movies, onCreateMovie }) => {
+const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies }) => {
     const movieObj = { 'name': '', 'genre': '', 'image': '' };
 
     const handleClick = () => {
         onCreateMovie(movies, movieObj);
-        this.refs.movieName.value = '';
-        this.refs.movieGenre.value = '';
-        this.refs.movieImage.value = '';
+        document.querySelector('#movieName').value = '';
+        document.querySelector('#movieGenre').value = '';
+        document.querySelector('#movieImage').value = '';
+        onGetAllMovies();
     };
 
     const handleChange = (event) => {
-        console.log('event', event);
-
         const target = event.target;
         const value = target.value;
         const name = target.name;
         const reader  = new FileReader();
-        const previewImg = document.querySelector('#previewImg');
 
         reader.addEventListener('load', () => {
-            previewImg.src = movieObj.image = reader.result;
+            movieObj.image = reader.result;
         }, false);
 
         if (name === 'movieName') {
@@ -37,23 +36,21 @@ const CreateMovieControl = ({ movies, onCreateMovie }) => {
     };
 
     return (
-      <div>
-        <img width="150" id="previewImg" />
-        <div>
-          <label htmlFor="movieName">Name</label>
-          <input type="text" name="movieName" id="movieName" onChange={handleChange} ref={elem => {this.movieName = elem;}} />
-          <label htmlFor="movieGenre">Genre</label>
-          <input type="text" name="movieGenre" id="movieGenre" onChange={handleChange} ref={elem => {this.movieGenre = elem;}} />
-          <label htmlFor="movieImage">Image</label>
-          <input type="file" name="movieImage" id="movieImage" accept="image/*" onChange={handleChange} ref={elem => {this.movieImage = elem;}} />
-          <button name="createMovieSubmit" id="createMovieSubmit" onClick={handleClick}>Add Movie</button>
-        </div>
+      <div className={createMovieForm}>
+        <label htmlFor="movieName">Name</label>
+        <input type="text" name="movieName" id="movieName" onChange={handleChange} />
+        <label htmlFor="movieGenre">Genre</label>
+        <input type="text" name="movieGenre" id="movieGenre" onChange={handleChange} />
+        <label htmlFor="movieImage">Image</label>
+        <input type="file" name="movieImage" id="movieImage" accept="image/*" onChange={handleChange} />
+        <button name="createMovieSubmit" id="createMovieSubmit" onClick={handleClick}>Add Movie</button>
     </div>
     );
 };
 
 CreateMovieControl.propTypes = {
     onCreateMovie: PropTypes.func,
+    onGetAllMovies: PropTypes.func,
     movies: PropTypes.object
 };
 
@@ -65,7 +62,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onCreateMovie: (movies, newMovie) => dispatch(createMovie(movies, newMovie))
+        onCreateMovie: (movies, newMovie) => dispatch(createMovie(movies, newMovie)),
+        onGetAllMovies: () => dispatch(getAllMovies())
     };
 };
 

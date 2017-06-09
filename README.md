@@ -1,6 +1,8 @@
 Jorge Ortega Movie Collection
 
-instructions:
+Based on https://github.com/jpsierens/webpack-react-redux boilerplate
+
+Instructions:
 
 npm install
 npm start

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
+import { appContainer } from '../styles/appContainer.scss';
 
 const App = ({ children }) =>
-    <div>
+    <div className={appContainer}>
         <h1>Jorge Ortega Movie Collection</h1>
         { children }
     </div>;

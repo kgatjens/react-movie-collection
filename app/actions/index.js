@@ -14,8 +14,6 @@ export function getAllMovies() {
 }
 
 export function createMovie(movies, newMovie) {
-    console.log('movies', movies);
-    console.log('newMovie', newMovie);
     movies.push(newMovie);
     localStorage.setItem('storageMovies', JSON.stringify(movies));
 
