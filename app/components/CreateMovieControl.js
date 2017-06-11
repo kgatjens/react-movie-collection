@@ -4,14 +4,17 @@ import { createMovie, getAllMovies } from '../actions';
 import { createMovieForm } from '../styles/createMovieForm.scss';
 
 const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies }) => {
-    const movieObj = { 'name': '', 'genre': '', 'image': '' };
+    const initialMovieObj = { 'name': '', 'genre': '', 'image': '', 'id': '' };
+    let movieObj = initialMovieObj;
 
     const handleClick = () => {
+        movieObj.id = Date.now();
         onCreateMovie(movies, movieObj);
         document.querySelector('#movieName').value = '';
         document.querySelector('#movieGenre').value = '';
         document.querySelector('#movieImage').value = '';
         onGetAllMovies();
+        movieObj = initialMovieObj;
     };
 
     const handleChange = (event) => {
@@ -31,8 +34,6 @@ const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies }) => {
         } else if (name === 'movieImage' && target.files.length) {
             reader.readAsDataURL(target.files[0]);
         }
-
-        console.log('movieObj', movieObj);
     };
 
     return (
@@ -63,7 +64,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onCreateMovie: (movies, newMovie) => dispatch(createMovie(movies, newMovie)),
-        onGetAllMovies: () => dispatch(getAllMovies())
+        onGetAllMovies: () => dispatch(getAllMovies()),
     };
 };
 

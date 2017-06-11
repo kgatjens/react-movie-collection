@@ -1,4 +1,5 @@
 import * as types from './types';
+// import _ from 'lodash';
 
 export function getAllMovies() {
     let storageMovies = localStorage.getItem('storageMovies');
@@ -30,14 +31,17 @@ export function readMovie(movieId) {
     };
 }
 
-export function updateMovie(movie) {
+export function updateMovie(movies, movie) {
     return {
         type: types.UPDATE_MOVIE,
         movie
     };
 }
 
-export function deleteMovie(movieId) {
+export function deleteMovie(movies, movieId) {
+    console.log('movies', movies);
+    console.log('movieId', movieId);
+
     return {
         type: types.DELETE_MOVIE,
         movieId
