@@ -24,14 +24,18 @@ export function createMovie(movies, newMovie) {
     };
 }
 
-export function readMovie(movieId) {
+export function readMovie(movies, movieId) {
+    console.log('movies', movies);
+    console.log('movieId', movieId);
+    // const editMovieObj = _.find(movies, {  })
     return {
         type: types.READ_MOVIE,
-        movieId
     };
 }
 
 export function updateMovie(movies, movie) {
+    console.log('movies', movies);
+    console.log('movie', movie);
     return {
         type: types.UPDATE_MOVIE,
         movie
@@ -39,9 +43,6 @@ export function updateMovie(movies, movie) {
 }
 
 export function deleteMovie(movies, movieId) {
-    console.log('movies', movies);
-    console.log('movieId', movieId);
-
     return {
         type: types.DELETE_MOVIE,
         movieId
