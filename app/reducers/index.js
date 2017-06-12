@@ -18,7 +18,13 @@ const movieCollectionReducer = (state = initialState, action) => {
             };
         case types.READ_MOVIE:
             return {
-                ...state
+                ...state,
+                loadMovieObj: action.movieObj
+            };
+        case types.LOAD_MOVIE_FORM:
+            return {
+                ...state,
+                loadMovieForm: action.loadMovieForm
             };
         case types.UPDATE_MOVIE:
             return {

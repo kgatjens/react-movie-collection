@@ -1,5 +1,5 @@
 import * as types from './types';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 export function getAllMovies() {
     let storageMovies = localStorage.getItem('storageMovies');
@@ -25,26 +25,40 @@ export function createMovie(movies, newMovie) {
 }
 
 export function readMovie(movies, movieId) {
-    console.log('movies', movies);
-    console.log('movieId', movieId);
-    // const editMovieObj = _.find(movies, {  })
+    const loadMovieObj = _.find(movies, { id: movieId });
+
     return {
         type: types.READ_MOVIE,
+        loadMovieObj
     };
 }
 
-export function updateMovie(movies, movie) {
-    console.log('movies', movies);
-    console.log('movie', movie);
+export function loadMovieForm() {
+    return {
+        type: types.LOAD_MOVIE_FORM,
+        loadMovieForm: true
+    };
+}
+
+export function updateMovie(movies, newMovie) {
+    const newMovies = _.map(movies, (movie) => {
+        if (movie.id === newMovie.id) {
+            return newMovie;
+        }
+        return movie;
+    });
+    localStorage.setItem('storageMovies', JSON.stringify(newMovies));
     return {
         type: types.UPDATE_MOVIE,
-        movie
+        movies: newMovies
     };
 }
 
 export function deleteMovie(movies, movieId) {
+    const newMovies = _.filter(movies, (movie) => movie.id !== movieId );
+    localStorage.setItem('storageMovies', JSON.stringify(newMovies));
     return {
         type: types.DELETE_MOVIE,
-        movieId
+        movies: newMovies
     };
 }

@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { createMovie, getAllMovies } from '../actions';
 import { createMovieForm } from '../styles/createMovieForm.scss';
 
-const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies }) => {
+const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies, loadMovieForm, loadMovieObj }) => {
     const initialMovieObj = { 'name': '', 'genre': '', 'image': '', 'id': '' };
     let movieObj = initialMovieObj;
+    let jsxForm = null;
 
     const handleClick = () => {
         movieObj.id = Date.now();
@@ -36,28 +37,44 @@ const CreateMovieControl = ({ movies, onCreateMovie, onGetAllMovies }) => {
         }
     };
 
-    return (
-      <div className={createMovieForm}>
-        <label htmlFor="movieName">Name</label>
-        <input type="text" name="movieName" id="movieName" onChange={handleChange} />
-        <label htmlFor="movieGenre">Genre</label>
-        <input type="text" name="movieGenre" id="movieGenre" onChange={handleChange} />
-        <label htmlFor="movieImage">Image</label>
-        <input type="file" name="movieImage" id="movieImage" accept="image/*" onChange={handleChange} />
-        <button name="createMovieSubmit" id="createMovieSubmit" onClick={handleClick}>Add Movie</button>
-    </div>
-    );
+    if (loadMovieForm) {
+        jsxForm = (<div className={createMovieForm}>
+                      <label htmlFor="movieName">Name</label>
+                      <input type="text" value={loadMovieObj.name} name="movieName" id="movieName" onChange={handleChange} />
+                      <label htmlFor="movieGenre">Genre</label>
+                      <input type="text" value={loadMovieObj.genre} name="movieGenre" id="movieGenre" onChange={handleChange} />
+                      <label htmlFor="movieImage">Image</label>
+                      <input type="file" value={loadMovieObj.image} name="movieImage" id="movieImage" accept="image/*" onChange={handleChange} />
+                      <button name="createMovieSubmit" id="createMovieSubmit" onClick={handleClick}>Add Movie</button>
+                    </div>);
+    } else {
+        jsxForm = (<div className={createMovieForm}>
+                    <label htmlFor="movieName">Name</label>
+                    <input type="text" name="movieName" id="movieName" onChange={handleChange} />
+                    <label htmlFor="movieGenre">Genre</label>
+                    <input type="text" name="movieGenre" id="movieGenre" onChange={handleChange} />
+                    <label htmlFor="movieImage">Image</label>
+                    <input type="file" name="movieImage" id="movieImage" accept="image/*" onChange={handleChange} />
+                    <button name="createMovieSubmit" id="createMovieSubmit" onClick={handleClick}>Add Movie</button>
+                  </div>);
+    }
+
+    return jsxForm;
 };
 
 CreateMovieControl.propTypes = {
     onCreateMovie: PropTypes.func,
     onGetAllMovies: PropTypes.func,
-    movies: PropTypes.object
+    movies: PropTypes.object,
+    loadMovieForm: PropTypes.object,
+    loadMovieObj: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
     return {
-        movies: state.movieCollectionReducer.movies
+        movies: state.movieCollectionReducer.movies,
+        loadMovieForm: state.movieCollectionReducer.loadMovieForm,
+        loadMovieObj: state.movieCollectionReducer.loadMovieObj
     };
 };
 
